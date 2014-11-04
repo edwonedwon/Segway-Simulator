@@ -1,0 +1,476 @@
+Copyright © 2012, BitLegit
+All rights reserved.
+
+Broadcasted Messages
+	"OnWiimoteFound(int remote)"
+		- Takes a single int parameter representing the number of the remote found.
+	"OnWiimoteDropped(int remote)"
+		- Takes a single int parameter representing the number of the remote lost.
+	"OnDiscoveryError(int error)"
+		- Takes a single int parameter representing the error code.
+
+Static Functions 
+	void StartSearch()
+		- Begins the search for new wiimotes or balance boards. Press the 1 and 2 buttons simultaneously on a wii remote or press the sync button on the remote to allow it to be discovered. The search lasts approximately 20 seconds. Newer wiimotes ("with a bluetooth identifier ending in TR") can only be detected by the Mac version of WiiBuddy and only if the sync button is pressed(not if the 1 and 2 button are pressed).
+
+	void StopSearch()    
+		- Cancels any ongoing attempts to discover new wiimotes
+
+	int GetDiscoveryStatus()
+		- Returns a value representing the current status of the discovery
+			0 = not currently searching
+			1 = searching
+			1## = new remote is found with ## representing its number a negative value means that the search has ended in failure
+			-100 means that the search timed out
+
+	void DropWiiRemote(int i)
+		int i : the number of the remote (0-15)
+		- Closes the connection to the wiimote or balance board represented by the number given.
+
+	int GetRemoteCount()
+		- Returns the total number of wiimotes and balance boards connected.
+
+	bool IsActive(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if there is an open connection to the remote represented by the number given.
+
+	bool IsSearching()
+		- Returns true if currently searching for new wiimotes or balance boards.
+
+	float GetBattery(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a float between 0 and 1 representing how much power the battery of the remote represented by the number given contains
+
+	void SetLEDs(int remote, bool LED1, bool LED2, bool LED3, bool LED4)
+		int remote : the number of the remote(0-15)
+		bool LED1 : the desired state of the first LED
+		bool LED2 : the desired state of the second LED
+		bool LED3 : the desired state of the third LED
+		bool LED4 : the desired state of the fourth LED (duh.)
+		- Updates all four LEDs so that they match the four boolean parameters
+		- Balance boards only have the one LED represented by LED1
+
+	bool[] GetLEDS(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns an array with a length of four. Each boolean represents the LEDs of the wiimote represented by the number given.
+		- The booleans represent the LEDs from left to right.
+		- Balance boards only have the one LED represented by the first boolean
+
+	void SetRumble(int remote, bool enabled)
+		int remote : the number of the remote(0-15)
+		bool enabled : whether or not the wiimote should rumble
+		- Balance boards don't rumble
+
+	bool GetRumble(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns whether or not the wiimote is already rumbling
+
+	void ToggleRumble(int remote)
+		int remote : the number of the remote(0-15)
+		- Causes the wiimote to either start or stop rumbling, depending on its current state.
+	  
+	bool GetButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check.
+		- Returns true if the button is depressed.
+		- Acceptable button types:
+			"A" "B" "ONE" "1" "TWO" "2" "PLUS" "+" "MINUS" "-" "HOME" "H" "UP" "DOWN" "LEFT" "RIGHT"
+			"C" "Z" 
+			"CLASSICA" "CLASSICB" "CLASSICMINUS" "CLASSICPLUS" "CLASSICHOME" "CLASSICX" 
+			"CLASSICY" "CLASSICUP" "CLASSICDOWN" "CLASSIC LEFT" "CLASSICRIGHT" "CLASSICL"
+			"CLASSICR" "CLASSICZL" "CLASSICZR"
+			"GUITARGREEN" "GUITARRED" "GUITARYELLOW" "GUITARBLUE" "GUITARORANGE"
+			"GUITARPLUS" "GUITARMINUS"
+			"DRUMGREEN" "DRUMRED" "DRUMYELLOW" "DRUMBLUE" "DRUMORANGE" "DRUMPLUS"
+			"DRUMMINUS" "DRUMPEDAL"
+			"TURNTABLEGREENLEFT" "TURNTABLEREDLEFT" "TURNTABLEBLUELEFT"
+			"TURNTABLEGREENRIGHT" "TURNTABLEREDRIGHT" "TURNTABLEBLUERIGHT"
+			"TURNTABLEEUPHORIA" "TURNTABLEPLUS" "TURNTABLEMINUS"
+
+
+	bool GetButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is depressed in the current frame, but was not in the previous frame.
+		- Acceptable button types:
+			"A" "B" "ONE" "1" "TWO" "2" "PLUS" "+" "MINUS" "-" "HOME" "H" "UP" "DOWN" "LEFT" "RIGHT"
+			"C" "Z" 
+			"CLASSICA" "CLASSICB" "CLASSICMINUS" "CLASSICPLUS" "CLASSICHOME" "CLASSICX" 
+			"CLASSICY" "CLASSICUP" "CLASSICDOWN" "CLASSIC LEFT" "CLASSICRIGHT" "CLASSICL"
+			"CLASSICR" "CLASSICZL" "CLASSICZR"
+			"GUITARGREEN" "GUITARRED" "GUITARYELLOW" "GUITARBLUE" "GUITARORANGE"
+			"GUITARPLUS" "GUITARMINUS"
+			"DRUMGREEN" "DRUMRED" "DRUMYELLOW" "DRUMBLUE" "DRUMORANGE" "DRUMPLUS"
+			"DRUMMINUS" "DRUMPEDAL"
+			"TURNTABLEGREENLEFT" "TURNTABLEREDLEFT" "TURNTABLEBLUELEFT"
+			"TURNTABLEGREENRIGHT" "TURNTABLEREDRIGHT" "TURNTABLEBLUERIGHT"
+			"TURNTABLEEUPHORIA" "TURNTABLEPLUS" "TURNTABLEMINUS"
+
+	bool GetButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is not depressed in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"A" "B" "ONE" "1" "TWO" "2" "PLUS" "+" "MINUS" "-" "HOME" "H" "UP" "DOWN" "LEFT" "RIGHT"
+			"C" "Z" 
+			"CLASSICA" "CLASSICB" "CLASSICMINUS" "CLASSICPLUS" "CLASSICHOME" "CLASSICX" 
+			"CLASSICY" "CLASSICUP" "CLASSICDOWN" "CLASSIC LEFT" "CLASSICRIGHT" "CLASSICL"
+			"CLASSICR" "CLASSICZL" "CLASSICZR"
+			"GUITARGREEN" "GUITARRED" "GUITARYELLOW" "GUITARBLUE" "GUITARORANGE"
+			"GUITARPLUS" "GUITARMINUS"
+			"DRUMGREEN" "DRUMRED" "DRUMYELLOW" "DRUMBLUE" "DRUMORANGE" "DRUMPLUS"
+			"DRUMMINUS" "DRUMPEDAL"
+			"TURNTABLEGREENLEFT" "TURNTABLEREDLEFT" "TURNTABLEBLUELEFT"
+			"TURNTABLEGREENRIGHT" "TURNTABLEREDRIGHT" "TURNTABLEBLUERIGHT"
+			"TURNTABLEEUPHORIA" "TURNTABLEPLUS" "TURNTABLEMINUS"
+
+	Vector3 GetWiimoteAcceleration(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a vector3 representing the three axes of the wiimote's acceleration.
+		- The x-axis runs from the left side to the right side.
+		- The y-axis runs from the expansion port to the IR camera
+		- The z-axis runs from the button faces to the battery panel
+
+	float GetIRSensitivity(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a value from 1 to 100 representing the IR sensitivity used in GetIRPosition. Sensitivity is 50 by default.
+
+	void SetIRSensitivity(int i, float sensitivity)
+		int remote : the number of the remote(0-15)
+		- Sets the sensitivity value to be used y GetIRPosition.
+		- Sensitivity value is clamped from 1 to 100.
+		- Sensitivity is 50 by default.
+
+	Vector2 GetIRPosition(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns the x and y coordinate of the IR pointer
+		- This function is overly elaborate and attempts to continue functioning, even if the IR camera loses sight of half the sensor bar. I encourage anyone capable to create a more effective function using the raw IR data.
+
+	Vector3 GetIRVector3(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns the same x and y values as GetIRPosition along with a Z value determined by the perceived size of the IR light.
+		- The Z value is not updated if the remote has an extension or motion plus in it.
+
+	float GetIRRotation(int remote)
+		int remote : the number of the remote(0-15)
+		- Uses the accelerometer information to determine the angle between the button face of the wiimote and gravitational upwards, along the axis of the wiimote running from the IR Camera to the expansion port.
+		- The angle is measured in radians. Clockwise roll is positive. Counter clockwise roll is negative.
+
+	Vector3[] GetRawIRData(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns an array of four Vector3s. The x and y of each Vector3 represent the position of an IR point, relative to the IR Camera. 
+		- All values have been normalized to range from 0 to 1. 
+		- The z of each Vector3 represents how close that IR point is.
+
+Motion Plus Functions
+	bool HasMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if external motion plus device is attached or if wiimote has motion pus built in.
+
+	void CheckForMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- If the remote has an unactivated or deactivated Motion Plus attached to it, this will activate it.
+		- Once activated, the Motion Plus will still need to be calibrated.
+
+	void DeactivateMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- If the remote has an activated Motion Plus, this will uncalibrate and deactivate it.
+		- Doing so may allow for more IR information (so long as no other extension is attached) 
+
+	void ShouldAutomaticallyCheckForMotionPlus(bool should)
+		- If true, WiiBuddy will check for attached (but unactivated) motion plus every 4 seconds.
+		- Is true by default, but will only work if the Wii prefab is present in the scene
+
+	void ShouldAutomaticallyCalibrateMotionPlus(bool should)
+		- If true, WiiBuddy will automatically calibrate any remotes with uncalibrated Motion Plus
+		- Calibration happens when an uncalibrated remote is placed face down and motionless for a few seconds.
+		- Is true by default, but will only work if the Wii prefab is present in the scene.
+
+	bool IsMotionPlusCalibrated(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if the wiimote's motion plus is available and has been calibrated.
+		- Motion plus is calibrated by placing the wiimote face down and motionless.
+
+	Vector3 GetMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a Vector3 representing the roll, yaw, and pitch of the wiimote
+		- Returns Vector3.zero if uncalibrated.
+	
+	Vector3 GetRawMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a Vector3 containing the raw roll, yaw, and pitch of the wiimote.
+		- This is Meant to be used for calibrating the Motion Plus without Wii.cs doing it automatically
+		- Before calibration, these will represent the raw data of the motion plus.
+		- After calibration, these will still be calibrated(I think), but will not exclude near-zero values or use Time.deltaTime
+
+	bool IsRollFast(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if the motion plus is rolling quickly.
+		- Does not need to be calibrated.
+
+	bool IsYawFast(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if the motion plus is yawing quickly.
+		- Does not need to be calibrated.
+
+	bool IsPitchFast(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns true if the motion plus is pitching quickly
+		- Does not need to be calibrated.
+
+	void CalibrateMotionPlus(int remote, Vector3 calib)
+		int remote : the number of the remote(0-15)
+		Vector3 calib : the roll, yaw, and pitch which will become the motion plus center values.
+		- Calibrates the remote's motion plus so that the entered values represent no rotation.
+		
+	void CalibrateMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- Calibrates the remote's motion plus so that the current raw values represent no rotation.
+
+	void UncalibrateMotionPlus(int remote)
+		int remote : the number of the remote(0-15)
+		- Throws away this motion plus's calibration information.
+		- This motion plus must be placed face down to recalibrate.
+
+	int GetExpType(int remote)
+		int remote : the number of the remote(0-15)
+		-returns an int representing the expansion type plugged into this wiimote.
+			0 : no expansion
+			1 : nunchuck
+			2 : classic controller
+			3 : balance board
+			4 : guitar
+			5 : drumset
+			6 : Turntable
+
+	Vector2 GetAnalogStick(int remote)
+		int remote : the number of the remote(0-15)
+		- If the wiimote has an expansion with an analog stick, a Vector2 is returned representing the x and y values of that analog stick. 
+		- If the expansion is the classic controller, the left analog stick is used.
+
+	Vector2 GetAnalogStick(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of analog stick you wish to check
+		- Acceptable analog stick types
+			"NUNCHUCK" "CLASSICLEFT" "CLASSICRIGHT" "GUITAR" "DRUMS" "TURNTABLE"
+		- If the specified analog stick is available, the returned Vector2 represents its x and y value.
+
+Nunchuck functions
+	Vector2 GetNunchuckAnalogStick(int remote)
+		int remote : the number of the remote(0-15)
+		- If a nunchuck is attached to this wiimote, a Vector2 is returned representing its analog stick's x and y values.
+		- Values are returned on a scale between approximately -1 and 1.
+
+	bool GetNunchuckButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+			- Returns false if nunchuck is not attached to this wiimote.
+		string s : the type of button you wish to check
+			- Returns true if the button is depressed in the current frame
+		- Acceptable button types:
+			"C" "Z"
+
+	bool GetNunchuckButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check
+			- Returns true if the button is depressed in the current frame but was not in the previous frame.
+		- Acceptable button types:
+			"C" "Z"
+
+	bool GetNunchuckButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check
+			- Returns true if the button is not depressed in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"C" "Z"
+
+	Vector3 GetNunchuckAcceleration(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a vector3 representing the three axes of the nun chuck's acceleration.
+		- The x-axis runs from the left side to the right side.
+		- The y-axis faces out through the button faces
+		- The z-axis runs through the top of the analog stick to the bottom
+
+Classic functions
+	bool GetClassicButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check
+		- Returns true if the button is depressed in the current frame.
+		- Acceptable button types:
+			"A" "B" "MINUS" "PLUS" "HOME" "X" "Y" "UP" "DOWN" "LEFT" "RIGHT" "L" "R" "ZL" "ZR"
+
+	bool GetClassicButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check
+		- Returns true if the button is depressed in the current frame but was not in the previous frame.
+		- Acceptable button types:
+			"A" "B" "MINUS" "PLUS" "HOME" "X" "Y" "UP" "DOWN" "LEFT" "RIGHT" "L" "R" "ZL" "ZR"
+
+	bool GetClassicButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of button you wish to check
+		- Returns true if the button is not depressed in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"A" "B" "MINUS" "PLUS" "HOME" "X" "Y" "UP" "DOWN" "LEFT" "RIGHT" "L" "R" "ZL" "ZR"
+
+	Vector2 GetClassicAnalogStick(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s : the type of analog stick you wish to check
+		- Returns a Vector2 representing the x and y values of the specified analog stick. Values range from -1 to 1 with 0 representing the neutral position.
+		- Acceptable types of analog stick:
+			"LEFT" "RIGHT"
+
+	float GetAnalogButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		string s :  the type of analog button you wish you check.
+		- Acceptable button types:
+			"CLASSICL" "CLASSICR"
+
+Balance board functions
+	Vector4 GetBalanceBoard(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns the weight in kilograms on each of the four sensors in the balance board. 
+		The x-value is the top right sensor.
+		The y-value is the top left sensor.
+		The z-value is the bottom right sensor.
+		The w-value is the bottom left sensor.
+
+	Vector4 GetRawBalanceBoard(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns the raw values generated by the four sensors in the balance board. 
+		The x-value is the top right sensor.
+		The y-value is the top left sensor.
+		The z-value is the bottom right sensor.
+		The w-value is the bottom left sensor.
+
+	Vector2 GetCenterOfBalance(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a Vector 2 representing the distribution of weight on the balance board. The x-value represents the difference in weight between the right and left sides. The y-value represents the difference in weight between the front and back sides.
+		- If there is no weight or the weight is evenly distributed, Vector2.zero is returned.
+
+	float GetTotalWeight(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns the total weight on the balance board in kilograms.
+
+Guitar functions
+	bool GetGuitarButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is depressed in the current frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS":
+
+	bool GetGuitarButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is depressed in the current frame but was not in the previous frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS":
+
+	bool GetGuitarButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is not depressed in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS":
+
+	Vector2 GetGuitarAnalogStick(int remote)
+		int remote : the number of the remote(0-15)
+		- If a Drumset is attached to this wiimote, a Vector2 is returned representing its analog stick's x and y values.
+		- Values are returned on a scale between approximately -1 and 1.
+
+	int GetGuitarStrum(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a zero if the strummer is in the neutral position.
+		- Returns a 1 if the strummer is turned downwards.
+		- Returns a -1 if the strummer is turned upwards.
+
+	float GetGuitarWhammy(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a value between 0 and 1 representing the force depressing the whammy bar, similarly to an analog button.
+
+Drum functions
+	bool GetDrumButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is being struck in the current frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS" "PEDAL"
+
+	bool GetDrumButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is being struck in the current frame but was not in the previous frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS" "PEDAL"
+
+	bool GetDrumButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is not being struck in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS" "PEDAL"
+
+	Vector2 GetDrumAnalogStick(int remote)
+		int remote : the number of the remote(0-15)
+		- If a Drumset is attached to this wiimote, a Vector2 is returned representing its analog stick's x and y values.
+		- Values are returned on a scale between approximately -1 and 1.
+
+	float GetDrumVelocity(int remote, string drum)
+		int remote : the number of the remote(0-15)
+		string drum : the type of drum you wish to check
+		- Acceptable drum types:
+			"GREEN" "RED" "YELLOW" "BLUE" "ORANGE" "PLUS" "MINUS" "PEDAL"
+
+Turntable functions
+	bool GetTurntableButton(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is depressed in the current frame.
+		- Acceptable button types:
+			"GREENLEFT" "REDLEFT" "BLUELEFT" 
+			"GREENRIGHT" "REDRIGHT" "BLUERIGHT"
+			"EUPHORIA" "PLUS" "MINUS"
+
+	bool GetTurntableButtonDown(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is depressed in the current frame but was not in the previous frame.
+		- Acceptable button types:
+			"GREENLEFT" "REDLEFT" "BLUELEFT" 
+			"GREENRIGHT" "REDRIGHT" "BLUERIGHT"
+			"EUPHORIA" "PLUS" "MINUS"
+
+	bool GetTurntableButtonUp(int remote, string s)
+		int remote : the number of the remote(0-15)
+		- Returns true if the button is not depressed in the current frame but was in the previous frame.
+		- Acceptable button types:
+			"GREENLEFT" "REDLEFT" "BLUELEFT" 
+			"GREENRIGHT" "REDRIGHT" "BLUERIGHT"
+			"EUPHORIA" "PLUS" "MINUS"
+
+	Vector2 GetTurntableAnalogStick(int remote)
+		int remote : the number of the remote(0-15)
+		- If a Turntable is attached to this wiimote, a Vector2 is returned representing its analog stick's x and y values.
+		- Values are returned on a scale between approximately -1 and 1.
+
+	float GetTurnTableSpin(int remote, string which)
+		int remote : the number of the remote(0-15)
+		string which : the type of platter you wish to check
+		- Acceptable platter types:
+			"LEFT" "RIGHT"
+		- Returns a float representing the direction and speed of a platter's rotation. Clockwise rotation is represented by positive values, which counter clockwise rotation is represented by negative values. The rotation speed is represented in degrees per second (approximately). If a platter is spinning faster than it can register, it will use smaller values. It seems like the RIGHT platter is able to handle speeds twice as fast as those on the LEFT.
+
+	float GetTurnTableSlider(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a float representing the current position of the Turntable's slider. The left and right ends correspond to -1 and 1, with the middle position corresponding to zero.
+
+	float GetTurnTableDial(int remote)
+		int remote : the number of the remote(0-15)
+		- Returns a float representing the current position of the Turntable's dial.
+		- The value ranges from zero to one.
+
+	##----------------------------------------------------------------------------------------##
+		WIIBUDDY IS BASED OFF OF AN OPEN SOURCE PROJECT WHICH REQUIRES THE FOLLOWING NOTICE
+
+		Copyright (c) 2006, Hiroaki Kimura
+		All rights reserved.
+
+			Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+		1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+		2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+		3. Neither the name of this project nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+	##----------------------------------------------------------------------------------------##
